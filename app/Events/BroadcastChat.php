@@ -34,6 +34,6 @@ class BroadcastChat implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('Chat.');
+        return new PrivateChannel('Chat.'.$this->chat->user_id. '.'. $this->chat->friend_id);
     }
 }

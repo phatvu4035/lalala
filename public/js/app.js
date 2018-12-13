@@ -1099,7 +1099,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * a simple convenience so we don't have to attach every token manually.
  */
 
-var token = document.head.querySelector('meta[name="csrf-token"]');
+var token = document.querySelector('meta[name="csrf-token"]');
 
 if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
@@ -62662,6 +62662,7 @@ var Chat = function (_Component) {
 		value: function addMessageData(data) {
 			var _this4 = this;
 
+			console.log(data);
 			this.setState(function (state, props) {
 				return {
 					chats: _this4.state.chats.concat([data.chat])
@@ -62671,8 +62672,9 @@ var Chat = function (_Component) {
 	}, {
 		key: 'listenMessageEcho',
 		value: function listenMessageEcho() {
-
-			window.Echo.channel('Chat.').listen('BroadcastChat', this.addMessageData.bind(this));
+			var userId = $('meta[name="userId"]').attr('content');
+			var friendId = $('meta[name="friendId"]').attr('content');
+			window.Echo.private('Chat.' + friendId + '.' + userId).listen('BroadcastChat', this.addMessageData.bind(this));
 		}
 	}, {
 		key: 'render',

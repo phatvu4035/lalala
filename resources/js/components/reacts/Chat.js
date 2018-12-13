@@ -82,6 +82,7 @@ export default class Chat extends Component
 	// }
 
 	addMessageData(data) {
+		console.log(data);
 		this.setState((state, props) => {
 			return {
 				chats: this.state.chats.concat([data.chat])
@@ -90,8 +91,9 @@ export default class Chat extends Component
 	}
 
 	listenMessageEcho() {
-
-		window.Echo.channel('Chat.')
+		const userId = $('meta[name="userId"]').attr('content');
+		const friendId = $('meta[name="friendId"]').attr('content');
+		window.Echo.private('Chat.' + friendId + '.' + userId)
 			.listen('BroadcastChat', this.addMessageData.bind(this) );
 	}
 
